@@ -1,0 +1,22 @@
+# Small protocols to keep in mind
+
+- Always start work on a new branch and make a pull request after you're done. 
+- Create an issue if you want to work on something that isn't already and issue. 
+- If you start working on an issue ask to be assigned or assign yourself. 
+- Please write nice commit messages. Give it a heading and explain why you've made certain changes.
+
+- Put function declarations in header files. 
+- Always protect your header files.
+
+
+# Git and GitHub basics
+- after you're happy with a file, save it and `git add <file-name>`
+- Then commit it using `git commit -m "<small commit message>"` or just `git commit` and hit ENTER, you'll be led to window where you can write a bigger commit message.
+- Then `git push origin <branch name>`.
+
+
+# instructions to build the project. 
+- `cd build` and then run `cmake ..`
+- and then run `cmake --build .`
+- these steps should lead to the executable in the `build` directory.
+
