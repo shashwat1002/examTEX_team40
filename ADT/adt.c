@@ -42,3 +42,26 @@ McqQuestion* initialize_mcq_question(double difficulty, char* question_text, int
     return question;
 }
 
+
+void display_mcq_question(McqQuestion *question, int Serial_number)
+{
+    int String_length = strlen(question->question_text);
+    for (int i = 0; i < String_length + 15; i++)
+    {
+        printf("_");
+    }
+    printf("\n\n");
+    printf("%d) %s\n", Serial_number, question->question_text);
+    for (int i = 0; i < String_length + 15; i++)
+    {
+        printf("_");
+    }
+    printf("\n");
+
+    for (int i = 0; i < 4; i++)
+    {
+        printf(" {%d} %s\n", i + 1, question->option_list[i]);
+    }
+}
+
+
