@@ -1,9 +1,4 @@
-//
-//  blanks_adt.c
-//  
-//
-//  Created by Siddik Ayyappa on 05/05/21.
-//
+
 
 #include "blanks_adt.h"
 #include<stdlib.h>
