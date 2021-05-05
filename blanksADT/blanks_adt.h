@@ -1,9 +1,4 @@
-//
-//  blanks_adt.h
-//  
-//
-//  Created by Siddik Ayyappa on 05/05/21.
-//
+
 
 #ifndef blanks_adt_h
 #define blanks_adt_h
