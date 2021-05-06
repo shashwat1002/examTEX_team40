@@ -25,12 +25,3 @@ void printQuestion(questionPtr q){
     }
 }
 
-
-int main(){
-    char q_string[] = "what is this";
-    char a_array[3][10] = {"That", "tHis", "this"};
-    
-    questionPtr q = initializeQuestion(q_string, a_array, 3);
-    printQuestion(q);
-    return 0;
-}
