@@ -25,13 +25,9 @@ void printQuestion_blanks(questionPtr q){
     }
 }
 
-int printQuestion_takeAnswer_blanks(questionPtr q){ // returns 0 if wrong
-    char s[asnwerLength];
-    printf("\n%s?\n");
-    printf("Answer: ");
-    scanf("%s", s);
+int takeAnswer_blanks(questionPtr q, char answer[]){ // returns 0 if wrong
     for(int i = 0; i < q->numberOfoptions;i++){
-        if(strcmp(s, q->answerArray[i]) == 0){
+        if(strcmp(answer, q->answerArray[i]) == 0){
             return 1;
         }
     }
