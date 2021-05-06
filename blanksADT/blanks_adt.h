@@ -14,5 +14,7 @@ typedef struct question{
 typedef question* questionPtr;
 
 questionPtr initializeQuestion_fillInTheBlank(char question_string[], char answer_array[][answerLength], int numberOfAns);
+void printQuestion_blanks(questionPtr q);
+int takeAnswer_blanks(questionPtr q, char answer[]);
 
 #endif /* blanks_adt_h */
