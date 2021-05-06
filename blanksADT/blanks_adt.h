@@ -13,6 +13,6 @@ typedef struct question{
 }question;
 typedef question* questionPtr;
 
-questionPtr initializeQuestion(char question_string[], char answer_array[][answerLength], int numberOfAns);
+questionPtr initializeQuestion_fillInTheBlank(char question_string[], char answer_array[][answerLength], int numberOfAns);
 
 #endif /* blanks_adt_h */
