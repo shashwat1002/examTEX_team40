@@ -8,7 +8,7 @@ void _trim_spaces(char* text)
      while(current_character == ' ')
      {
          index_l++;
-         current_character = text[index];
+         current_character = text[index_l];
      }
      int offset = index_l;
      int length = strlen(text);
@@ -21,8 +21,12 @@ void _trim_spaces(char* text)
      // leading spaces removed
 
      char* first_space = index(text, ' ');
-     text[(first_space - &text[0])] = '\0';
-     // trailing space were removed.
+     if(first_space != NULL)
+     {
+         text[(first_space - &text[0])] = '\0';
+         // trailing space were removed.
+     }
+
 }
 
 McqQuestion* parse_mcq_question(FILE *question_bank_file)
@@ -37,13 +41,14 @@ McqQuestion* parse_mcq_question(FILE *question_bank_file)
     char** options;
     double difficulty;
     char* question_text = (char*) malloc(10000);
-    char correct_option[current_option_limit] = {'\0'};
+    char correct_option[current_option_limit] = {0};
     int num_options;
     char* general_temp_text = (char*) malloc(10000);
     for(int i = 0; i < 4; i++)
     {
-        fscanf(question_bank_file, "%*[^{]%*c"); // read till opening brackets
-        Push(parsing_stack, '{');
+        fscanf(question_bank_file, "%*[^{]"); // read till opening brackets
+        fscanf(question_bank_file, "%*c"); // get rid of opening bracket
+        //Push(parsing_stack, '{');
         char current_attribute_name[50] = {0}; // will store the name of the attribute read.
         fscanf(question_bank_file, "%[^=]%*c", current_attribute_name);
         // take everything till the equal
@@ -73,7 +78,7 @@ McqQuestion* parse_mcq_question(FILE *question_bank_file)
         }
         else if(strcmp(current_attribute_name, "opt") == 0)
         {
-            fscanf(question_bank_file, "%[^{]%*c", general_temp_text);
+            fscanf(question_bank_file, "%[^}]%*c", general_temp_text);
             int count_commas = 0;
 
             char current_character = general_temp_text[0];
@@ -122,9 +127,17 @@ McqQuestion* parse_mcq_question(FILE *question_bank_file)
                 }
             }
         }
-
-        McqQuestion* question = initialize_mcq_question(difficulty, question_text, num_options, options, correct_option);
-        
     }
+    McqQuestion* question = initialize_mcq_question(difficulty, question_text, num_options, options, correct_option);
+    free(general_temp_text); // because the initialize_mcq_question copies everything
+
+    // freeing sequence
+    for(int i = 0; i < num_options; i++)
+    {
+        free(options[i]);
+    }
+    free(options);
+    free(question_text);
+    return question;
 
 }
