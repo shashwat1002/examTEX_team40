@@ -5,7 +5,7 @@
 #include<string.h>
 
 
-questionPtr initializeQuestion(char question_string[], char answer_array[][answerLength], int numberOfAns){
+questionPtr initializeQuestion_fillInTheBlanks(char question_string[], char answer_array[][answerLength], int numberOfAns){
     questionPtr q = (questionPtr)malloc(sizeof(question));
     q->numberOfoptions = numberOfAns;
     strcpy(q->questionString, question_string);
