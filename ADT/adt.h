@@ -3,6 +3,7 @@
 #include <string.h>
 #include <malloc.h>
 #include <assert.h>
+#define answerLength 10 // for fill in the blanks questions
 
 enum supported_question_types {mcq = 0};
 // more supported types will be added to this enumeration.
@@ -22,5 +23,17 @@ McqQuestion* initialize_mcq_question(double difficulty, char* question_text, int
 // the above method takes the correct option as a string as well.
 
 void display_mcq_question(McqQuestion* question);
+
+
+typedef struct question_blanks{
+    char questionString[256];
+    char** answerArray;
+    int numberOfoptions;
+}question_blanks;
+typedef question_blanks* questionPtr;
+
+questionPtr initializeQuestion(char question_string[], char answer_array[][answerLength], int numberOfAns);
+void printQuestion_blanks(questionPtr q); // Prints Output to the console
+int takeAnswer_blanks(questionPtr q, char answer[]);
 
 #endif
