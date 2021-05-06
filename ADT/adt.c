@@ -1,6 +1,6 @@
 #include "adt.h"
 
-McqQuestion* initialize_mcq_question(double difficulty, char* question_text, int num_options, char option_list[num_options][140], char* correct_option)
+McqQuestion* initialize_mcq_question(double difficulty, char* question_text, int num_options, char** option_list, char* correct_option)
 {
     McqQuestion* question = (McqQuestion*) malloc(sizeof(McqQuestion));
     assert(question != NULL);
