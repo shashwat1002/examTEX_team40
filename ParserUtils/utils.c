@@ -141,3 +141,40 @@ McqQuestion* parse_mcq_question(FILE *question_bank_file)
     return question;
 
 }
+
+ParsedTree* parse_question_bank(FILE* question_bank_file)
+{
+    int index = 0;
+    int current_arr_size = 1;
+    McqQuestion** question_list = (McqQuestion**) malloc(sizeof(McqQuestion*) * 1);
+    while(!feof(question_bank_file))
+    {
+        char question_type[20] = {0};
+        fscanf(question_bank_file, "%[^{]", question_type);
+        _trim_spaces(question_type);
+        McqQuestion* current;
+        if(strcmp(question_type, "\\mcq") == 0)
+        {
+            current = parse_mcq_question(question_bank_file);
+        }
+        fscanf(question_bank_file, "%*[^\n]");
+
+        if(index >= current_arr_size)
+        {
+            // reallocating and increasing the size of the array
+            current_arr_size *= 2;
+            question_list = (McqQuestion**) realloc(question_list, current_arr_size);
+        }
+        question_list[index] = current;
+        index++;
+    }
+
+    question_list = (McqQuestion**) realloc(question_list, index+1);
+    // realloc to save memory, index+1 because index was the last place filled.
+
+    ParsedTree* pt = (ParsedTree*) malloc(sizeof (ParsedTree));
+    pt -> mcq_questions = question_list;
+    pt -> num_mcq_questions = index + 1;
+
+    return pt;
+}
