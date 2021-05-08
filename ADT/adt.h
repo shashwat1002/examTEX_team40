@@ -30,10 +30,11 @@ typedef struct question_blanks{
     char questionString[256];
     char** answerArray;
     int numberOfoptions;
+    double difficulty;
 }question_blanks;
 typedef question_blanks* questionPtr;
 
-questionPtr initializeQuestion(char question_string[], char answer_array[][answerLength], int numberOfAns);
+questionPtr initializeQuestion(char question_string[], char answer_array[][answerLength], int numberOfAns, double difficulty_blanks); // New change made here
 void printQuestion_blanks(questionPtr q); // Prints Output to the console
 int takeAnswer_blanks(questionPtr q, char answer[]);
 
