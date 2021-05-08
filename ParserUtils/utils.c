@@ -1,13 +1,13 @@
 #include "utils.h"
 
 
-void __trim__characters(char* text, char character)
+void __trim__characters(char *text, char character)
 {
     // take a string and a character
     // gets rid of all leading and trailing instances of the character from the text
     char current_character = text[0];
     int index_l = 0;
-    while(current_character == character)
+    while (current_character == character)
     {
         index_l++;
         current_character = text[index_l];
@@ -15,19 +15,24 @@ void __trim__characters(char* text, char character)
     int offset = index_l;
     int length = strlen(text);
 
-    for(int i  = index_l; i <= length; i++) // include length because move null character as well
+    for (int i = index_l; i <= length; i++) // include length because move null character as well
     {
-        text[i-offset] = text[i];
+        text[i - offset] = text[i];
     }
 
     // leading instances removed
 
-    char* first_space = index(text, character);
-    if(first_space != NULL)
+    int index_r = length;
+    current_character = text[index_r];
+    while(current_character == character)
     {
-        text[(first_space - &text[0])] = '\0';
-        // trailing instances were removed.
+        index_r--;
+        current_character = text[index_r];
     }
+
+    index_r++;
+    text[index_r] = '\0';
+
 
 }
 
