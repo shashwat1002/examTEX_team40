@@ -115,5 +115,13 @@ int takeAnswer_blanks(questionPtr q, char answer[]){ // returns 0 if wrong
     }
     return 0;
 }
+ 
+void captiliseString(char s[]){ // Function used to convert the strings into uppercase to avoid confusion of the upper and lower cases
+    for(int i = 0; s[i] != '\0'; i++){
+        if('a' <= s[i] && 'z' >= s[i]){
+            s[i] -= 32;
+        }
+    } // Check again  
+}
 
 
