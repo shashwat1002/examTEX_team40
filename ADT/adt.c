@@ -89,6 +89,7 @@ void display_mcq_question(McqQuestion *question, int Serial_number) // function 
 questionPtr initializeQuestion(char question_string[], char answer_array[][answerLength], int numberOfAns, double difficulty_blanks){ //  function to initialise the FILL IN THE BLANKS question
     questionPtr q = (questionPtr)malloc(sizeof(question)); // The texts from the file are taken as the input.
     q->numberOfoptions = numberOfAns;
+    q->difficulty = difficulty_blanks;
     strcpy(q->questionString, question_string);
     q->answerArray = (char**)malloc(sizeof(char*)*numberOfAns); // initialising a 2D array of chars, or an array of strings.
 //    q->answerArray
