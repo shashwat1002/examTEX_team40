@@ -44,6 +44,25 @@ McqQuestion* initialize_mcq_question(double difficulty, char* question_text, int
 
 
 
+void RandDisplay(McqQuestion *question)
+{
+    srand(time(NULL));
+    bool *OptionDisp = (bool *)malloc(4 * sizeof(bool));
+    int NumDisp = 1;
+    int Option;
+    while (NumDisp <= 4)
+    {
+        Option = rand() % 4;
+
+        if (!OptionDisp[Option])
+        {
+            printf("{%d} %s\n", NumDisp, question->option_list[Option]);
+            OptionDisp[Option] = true;
+            NumDisp++;
+        }
+    }
+}
+
 void display_mcq_question(McqQuestion *question, int Serial_number)
 {
     int String_length = strlen(question->question_text);
@@ -59,10 +78,11 @@ void display_mcq_question(McqQuestion *question, int Serial_number)
     }
     printf("\n");
 
-    for (int i = 0; i < 4; i++)
-    {
-        printf(" {%d} %s\n", i + 1, question->option_list[i]);
-    }
+    // for (int i = 0; i < 4; i++)
+    // {
+    //     printf(" {%d} %s\n", i + 1, question->option_list[i]);
+    // }
+    RandDisplay(question);
 }
 
 
