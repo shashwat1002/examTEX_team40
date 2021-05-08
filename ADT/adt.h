@@ -25,7 +25,7 @@ McqQuestion* initialize_mcq_question(double difficulty, char* question_text, int
 void display_mcq_question(McqQuestion* question , int Serial_number );
 
 
-
+// the below struct is the adt for fill in the blanks question
 typedef struct question_blanks{
     char questionString[256];
     char** answerArray;
@@ -36,6 +36,7 @@ typedef question_blanks* questionPtr;
 
 questionPtr initializeQuestion(char question_string[], char answer_array[][answerLength], int numberOfAns, double difficulty_blanks); // New change made here
 void printQuestion_blanks(questionPtr q); // Prints Output to the console
-int takeAnswer_blanks(questionPtr q, char answer[]);
+int takeAnswer_blanks(questionPtr q, char answer[]);//take in the input of user and gives 1 if correct else 0
+void captiliseString(char s[]);
 
 #endif
