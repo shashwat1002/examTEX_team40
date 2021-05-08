@@ -1,32 +1,46 @@
 #include "utils.h"
 
 
+void __trim__characters(char* text, char character)
+{
+    // take a string and a character
+    // gets rid of all leading and trailing instances of the character from the text
+    char current_character = text[0];
+    int index_l = 0;
+    while(current_character == character)
+    {
+        index_l++;
+        current_character = text[index_l];
+    }
+    int offset = index_l;
+    int length = strlen(text);
+
+    for(int i  = index_l; i <= length; i++) // include length because move null character as well
+    {
+        text[i-offset] = text[i];
+    }
+
+    // leading instances removed
+
+    char* first_space = index(text, character);
+    if(first_space != NULL)
+    {
+        text[(first_space - &text[0])] = '\0';
+        // trailing instances were removed.
+    }
+
+}
+
 void _trim_spaces(char* text)
 {
-     char current_character = text[0];
-     int index_l = 0;
-     while(current_character == ' ')
-     {
-         index_l++;
-         current_character = text[index_l];
-     }
-     int offset = index_l;
-     int length = strlen(text);
+    // gets rid of leading and trailing spaces
+    __trim__characters(text, ' ');
+}
 
-     for(int i  = index_l; i <= length; i++) // include length because move null character as well
-     {
-         text[i-offset] = text[i];
-     }
-
-     // leading spaces removed
-
-     char* first_space = index(text, ' ');
-     if(first_space != NULL)
-     {
-         text[(first_space - &text[0])] = '\0';
-         // trailing space were removed.
-     }
-
+void _trim_newlines(char* text)
+{
+    // gets rid of leading and trailing newlines
+    __trim__characters(text, '\n');
 }
 
 McqQuestion* parse_mcq_question(FILE *question_bank_file)
@@ -144,37 +158,44 @@ McqQuestion* parse_mcq_question(FILE *question_bank_file)
 
 ParsedTree* parse_question_bank(FILE* question_bank_file)
 {
-    int index = 0;
-    int current_arr_size = 1;
-    McqQuestion** question_list = (McqQuestion**) malloc(sizeof(McqQuestion*) * 1);
+    int mcq_index = 0;
+    int current_mcq_arr_size = 1;
+    ParsedTree* pt = (ParsedTree*) malloc(sizeof (ParsedTree));
+    McqQuestion** mcq_question_list = (McqQuestion**) malloc(sizeof(McqQuestion*) * 1);
     while(!feof(question_bank_file))
     {
-        char question_type[20] = {0};
-        fscanf(question_bank_file, "%[^{]", question_type);
-        _trim_spaces(question_type);
-        McqQuestion* current;
-        if(strcmp(question_type, "\\mcq") == 0)
+        char tag[20] = {0};
+        fscanf(question_bank_file, "%[^{]", tag);
+        _trim_spaces(tag);
+        _trim_newlines(tag);
+        if(strcmp(tag, "\\end") == 0) // in case of end tag
         {
-            current = parse_mcq_question(question_bank_file);
+            continue;
         }
-        fscanf(question_bank_file, "%*[^\n]");
+        if(strcmp(tag, "\\mcq") == 0) {
+            McqQuestion* current = parse_mcq_question(question_bank_file);
 
-        if(index >= current_arr_size)
-        {
-            // reallocating and increasing the size of the array
-            current_arr_size *= 2;
-            question_list = (McqQuestion**) realloc(question_list, current_arr_size);
+            fscanf(question_bank_file, "%*[^\n]");
+
+            if (index >= current_mcq_arr_size) {
+                // reallocating and increasing the size of the array
+                current_mcq_arr_size *= 2;
+                assert(mcq_question_list != NULL);
+                McqQuestion **tmp = (McqQuestion **) realloc(mcq_question_list, current_mcq_arr_size * sizeof(McqQuestion *));
+                mcq_question_list = tmp; // realloc frees old memory on success
+            }
+            mcq_question_list[mcq_index] = current;
+            mcq_index++;
+
+
+            mcq_question_list = (McqQuestion **) realloc(mcq_question_list, (mcq_index + 1) * sizeof(McqQuestion *));
+            // realloc to save memory, index+1 because index was the last place filled.
+
+            pt->mcq_questions = mcq_question_list;
+            pt->num_mcq_questions = mcq_index;
         }
-        question_list[index] = current;
-        index++;
+
     }
-
-    question_list = (McqQuestion**) realloc(question_list, index+1);
-    // realloc to save memory, index+1 because index was the last place filled.
-
-    ParsedTree* pt = (ParsedTree*) malloc(sizeof (ParsedTree));
-    pt -> mcq_questions = question_list;
-    pt -> num_mcq_questions = index + 1;
 
     return pt;
 }
