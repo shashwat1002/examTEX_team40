@@ -1,7 +1,7 @@
 #ifndef __ADT_H
 #define  __ADT_H
 #include <string.h>
-//#include <malloc.h>
+#include <malloc.h>
 #include <assert.h>
 #include <stdbool.h>
 #include <stdio.h>
