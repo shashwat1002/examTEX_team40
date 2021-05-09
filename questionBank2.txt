@@ -1,0 +1,78 @@
+\mcq{difficulty=0.1}
+{text = "C++ is a … language"}
+{opt = "Arabic", "Object-Oriented", "dumb", "none"}
+{ans = "Object-Oriented"}
+
+\mcq{difficulty=0.3}
+{text = "Which of the following is not related to OOP?"}
+{opt = "Encapsulation", "Schawarma", "Abstraction", "Inheritence"}
+{ans = "Schawarma"}
+
+\mcq{difficulty=1.4}
+{text = "Which of the following denotes the base address of a string s"}
+{opt = "\*s", "&\*s", "&s", "s"}
+{ans = "s"}
+
+\mcq{difficulty=1.5}
+{text = "HTML is a programming language (true/false)"}
+{opt = "none", "noComments", "true", "false"}
+{ans = "false"}
+
+\mcq{difficulty=0.6}
+{text = "Chose the forbidden state of an SR NOR latch:"}
+{opt = "00", "10", "01", "11"}
+{ans = "11"}
+
+
+\mcq{difficulty=0.4}
+{text = "Which of the following is a markup language?"}
+{opt = "thisLanguage", "C", "Python", "Java"}
+{ans = "thisLanguage"}
+
+
+\mcq{difficulty=0.8}
+{text = "Which of the following is not the fundamental data type in C language?"}
+{opt = "boolean", "double", "float", "int"}
+{ans = "boolean"}
+
+
+\mcq{difficulty=0.1}
+{text = "What among the below is a method of finding solutions of linear equations?"}
+{opt = "eatingPizza", "Baking", "none", "GaussianElimination"}
+{ans = "GaussianElimination"}
+
+
+\mcq{difficulty=1.0}
+{text = "How much space does an int occupy in C (in bytes)?"}
+{opt = "4", "none", "2", "3"}
+{ans = "4"}
+
+
+\mcq{difficulty=1.1}
+{text = "string is a primitive data type in java (true/false)?"}
+{opt = "yes", "none", "false", "true"}
+{ans = "false"}
+
+
+\mcq{difficulty=1.2}
+{text = "Which of the following is a pointer of integer variable x in C language?"}
+{opt = "\*x", "&x", "goX", "pointTox"}
+{ans = "&x"}
+
+
+\mcq{difficulty=1.3}
+{text = "What should be done if you are stressed a lot?"}
+{opt = "none", "bangYourHeadToWall", "meditate", "yeetTheLaptopToFloor"}
+{ans = "meditate"}
+
+
+\mcq{difficulty=1.4}
+{text = "Which of the following is preferred as a webpage markup language?"}
+{opt = "C#", "C++", "C", "HTML"}
+{ans = "HTML"}
+
+
+\mcq{difficulty=1.5}
+{text = "What happens when we reference to NULL in C"}
+{opt = "nullPointerException", "WW3", "none", "pizzaEruption"}
+{ans = "nullPointerException"}
