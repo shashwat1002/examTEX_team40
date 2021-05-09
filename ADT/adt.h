@@ -1,7 +1,7 @@
 #ifndef __ADT_H
 #define  __ADT_H
 #include <string.h>
-#include <malloc.h>
+//#include <malloc.h>
 #include <assert.h>
 #include <stdbool.h>
 #include <stdio.h>
@@ -26,7 +26,7 @@ typedef struct mcq_question McqQuestion;
 McqQuestion* initialize_mcq_question(double difficulty, char* question_text, int num_options, char** option_list, char* correct_option);
 // the above method takes the correct option as a string as well.
 
-void display_mcq_question(McqQuestion* question , int Serial_number );
+void display_mcq_question(McqQuestion* question , int Serial_number, FILE* fp);
 
 
 
@@ -38,7 +38,7 @@ typedef struct question_blanks{
 typedef question_blanks* questionPtr;
 
 questionPtr initializeQuestion(char question_string[], char answer_array[][answerLength], int numberOfAns);
-void printQuestion_blanks(questionPtr q); // Prints Output to the console
+void printQuestion_blanks(questionPtr q, FILE* fp); // Prints Output to the console
 int takeAnswer_blanks(questionPtr q, char answer[]);
 
 #endif
