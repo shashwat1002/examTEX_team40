@@ -89,4 +89,21 @@ void display_mcq_question(McqQuestion *question, int Serial_number)
     // }
     RandDisplay(question);
 }
-
+void ChooseQuestions( ParsedTree* T , double U , double L , int NumQuestions ){
+    srand( time( NULL ) );
+    bool* Disp = ( bool* ) malloc( NumQuestions * sizeof( bool ) );
+    int NumDisp = 0;
+    int Question;
+    ///int Up = BinarySearch_UpperBound( T , U );
+    int Lw = BinarySearch_LowerBound( T , L );
+    int Uw = BinarySearch_UpperBound(T, U);
+    int difference = Uw - Lw;
+    while( NumDisp < NumQuestions ){
+        Question = rand() % difference;
+        if( !Disp[Question] ){
+            display_mcq_question( T->mcq_questions[Question + Lw] );
+            Disp[Question] = true;
+            NumDisp++;
+        }
+    }
+}
