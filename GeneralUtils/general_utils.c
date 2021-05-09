@@ -7,7 +7,7 @@ void merge( McqQuestion** arr, int low, int mid, int high){
     // [mid, high] will be the other subset
 
     int final_counter = 0;
-    McqQuestion** replace_ar = ( McqQuestion** ) malloc( size * sizeof( McqQuestion* ) );
+    McqQuestion** replace_arr = ( McqQuestion** ) malloc( size * sizeof( McqQuestion* ) );
     int counter1 = low;
     int counter2 = mid + 1;
     for(int i = 0; i < size; i++){
