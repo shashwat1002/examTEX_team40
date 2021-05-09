@@ -44,7 +44,7 @@ McqQuestion* initialize_mcq_question(double difficulty, char* question_text, int
 
 
 
-void RandDisplay(McqQuestion *question)
+void RandDisplay(McqQuestion *question, FILE* fp)
 {
     srand(time(NULL));
     bool *OptionDisp = (bool *)malloc(4 * sizeof(bool));
@@ -56,7 +56,7 @@ void RandDisplay(McqQuestion *question)
 
         if (!OptionDisp[Option])
         {
-            printf("{%d} %s\n", NumDisp, question->option_list[Option]);
+            fprintf(fp, "{%d} %s\n", NumDisp, question->option_list[Option]);
             OptionDisp[Option] = true;
             NumDisp++;
         }
@@ -79,22 +79,8 @@ void display_mcq_question(McqQuestion *question, int Serial_number, FILE* fp)
     }
     fprintf(fp, "\n");
 
-    
-    srand(time(NULL));
-    bool *OptionDisp = (bool *)malloc(4 * sizeof(bool));
-    int NumDisp = 1;
-    int Option;
-    while (NumDisp <= 4)
-    {
-        Option = rand() % 4;
 
-        if (!OptionDisp[Option])
-        {
-            fprintf(fp, "{%d} %s\n", NumDisp, question->option_list[Option]);
-            OptionDisp[Option] = true;
-            NumDisp++;
-        }
-    }
+    RandDisplay(question, fp);
 }
 
 
