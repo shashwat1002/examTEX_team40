@@ -1,23 +1,23 @@
 #include "generation.h"
 
 int BinarySearch_LowerBound( ParsedTree* T , double L ){
-    if( T->mcq_questions[T->num_mcq_questions-1] < L ){
+    if( T->mcq_questions[T->num_mcq_questions-1]->difficulty < L ){
         return -1;
     }
-    if( T->mcq_questions[0] >= L ){
+    if( T->mcq_questions[0]->difficulty >= L ){
         return 0;
     }
     int i = 1;
     int mid = T->num_mcq_questions;
     while(1){
-        if( T->mcq_questions[i-1] < L && T->mcq_questions[i] >= L ){
+        if( T->mcq_questions[i-1]->difficulty < L && T->mcq_questions[i]->difficulty >= L ){
             return i;
         }
-        if( T->mcq_questions[i] >= L ){
+        if( T->mcq_questions[i]->difficulty >= L ){
             mid /= 2;
             i -= mid;
         }
-        if( T->mcq_questions[i] < L ){
+        else if( T->mcq_questions[i]->difficulty < L ){
             mid /= 2;
             i += mid;
         }
@@ -25,71 +25,36 @@ int BinarySearch_LowerBound( ParsedTree* T , double L ){
 }
 
 int BinarySearch_UpperBound( ParsedTree* T , double U ){
-    if( T->mcq_questions[T->num_mcq_questions-1] <= U ){
+    if( T->mcq_questions[T->num_mcq_questions-1]->difficulty <= U ){
         return T->num_mcq_questions-1;
     }
-    if( T->mcq_questions[0] > U ){
+    if( T->mcq_questions[0]->difficulty > U ){
         return -1;
     }
     int i = 1;
     int mid = T->num_mcq_questions;
     while(1){
-        if( T->mcq_questions[i-1] <= U && T->mcq_questions[i] > U ){
+        if( T->mcq_questions[i-1]->difficulty <= U && T->mcq_questions[i]->difficulty > U ){
             return i-1;
         }
-        if( T->mcq_questions[i] > U ){
+        if( T->mcq_questions[i]->difficulty > U ){
             mid /= 2;
             i -= mid;
         }
-        if( T->mcq_questions[i] <= U ){
+        else if( T->mcq_questions[i]->difficulty <= U ){
             mid /= 2;
             i += mid;
         }
     }
 }
 
-
-void RandDisplay(McqQuestion *question)
-{
-    srand(time(NULL));
-    bool *OptionDisp = (bool *)malloc(4 * sizeof(bool));
-    int NumDisp = 1;
-    int Option;
-    while (NumDisp <= 4)
-    {
-        Option = rand() % 4;
-
-        if (!OptionDisp[Option])
-        {
-            printf("{%d} %s\n", NumDisp, question->option_list[Option]);
-            OptionDisp[Option] = true;
-            NumDisp++;
-        }
-    }
-}
-
-void display_mcq_question(McqQuestion *question, int Serial_number)
-{
-    int String_length = strlen(question->question_text);
-    for (int i = 0; i < String_length + 15; i++)
-    {
-        printf("_");
-    }
-    printf("\n\n");
-    printf("%d) %s\n", Serial_number, question->question_text);
-    for (int i = 0; i < String_length + 15; i++)
-    {
-        printf("_");
-    }
-    printf("\n");
-
-    // for (int i = 0; i < 4; i++)
-    // {
-    //     printf(" {%d} %s\n", i + 1, question->option_list[i]);
-    // }
-    RandDisplay(question);
-}
-void ChooseQuestions( ParsedTree* T , double U , double L , int NumQuestions ){
+void ChooseQuestions( ParsedTree* T, double U, double L, int NumQuestions, FILE* fp, int* start_index ){
+    // this method will be called whenever we want to display all the questions corresponding to a sample
+    // these batches will be printed one after the other
+    // the start_index gives us an idea of the stage of printing
+    // so the question no. will be decided from the start index
+    // doube U is for the upper bound of difficulty 
+    // double L is for the lower bound of difficulty
     srand( time( NULL ) );
     bool* Disp = ( bool* ) malloc( NumQuestions * sizeof( bool ) );
     int NumDisp = 0;
@@ -101,7 +66,8 @@ void ChooseQuestions( ParsedTree* T , double U , double L , int NumQuestions ){
     while( NumDisp < NumQuestions ){
         Question = rand() % difference;
         if( !Disp[Question] ){
-            display_mcq_question( T->mcq_questions[Question + Lw] );
+            display_mcq_question( T->mcq_questions[Question + Lw], *start_index, fp);
+            *start_index = *start_index + 1;
             Disp[Question] = true;
             NumDisp++;
         }
