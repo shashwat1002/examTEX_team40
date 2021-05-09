@@ -22,7 +22,7 @@ void __trim__characters(char *text, char character)
 
     // leading instances removed
 
-    int index_r = length;
+    int index_r = length-1;
     current_character = text[index_r];
     while(current_character == character)
     {
@@ -182,7 +182,7 @@ ParsedTree* parse_question_bank(FILE* question_bank_file)
 
             fscanf(question_bank_file, "%*[^\n]");
 
-            if (index >= current_mcq_arr_size) {
+            if (mcq_index >= current_mcq_arr_size) {
                 // reallocating and increasing the size of the array
                 current_mcq_arr_size *= 2;
                 assert(mcq_question_list != NULL);
@@ -203,4 +203,164 @@ ParsedTree* parse_question_bank(FILE* question_bank_file)
     }
 
     return pt;
+}
+
+
+
+PaperSpec* parse_questions_file(FILE* questions_file)
+{
+    char buffer_text[300];
+    int _tripple_dash = 0;
+
+    PaperSpec* specs = (PaperSpec*) malloc(sizeof (PaperSpec));
+
+    while (1)
+    {
+        fscanf(questions_file, "%[^\n]%*c", buffer_text);
+        _trim_newlines(buffer_text);
+        _trim_spaces(buffer_text);
+
+        if (strcmp(buffer_text, "---") == 0)
+        {
+            _tripple_dash++;
+
+            if (_tripple_dash == 1)
+            {
+                continue;
+            }
+            if (_tripple_dash == 2)
+            {
+                break;
+            }
+        }
+
+        if (strcmp(buffer_text, "randomize: global") == 0)
+        {
+            specs -> scheme = global;
+        }
+
+        else if (strcmp(buffer_text, "randomize: sample-wise") == 0)
+        {
+            specs -> scheme = sample_wise;
+        }
+
+        else
+        {
+
+            char current = 0;
+            int index = -1;
+            while (current != ':')
+            {
+                index++;
+                current = buffer_text[index];
+            }
+            int offset = index;
+
+            char numbers[5] = {0};
+            int digit = 0;
+
+            while (1)
+            {
+                index++;
+                current = buffer_text[index];
+                if (current == '\0')
+                {
+                    break;
+                }
+                while (current == ' ')
+                {
+                    index++;
+                    current = buffer_text[index];
+                    // skip all spaces right after the :
+                }
+                if (!(current <= '9' && current >= '0'))
+                {
+                    printf("invalid argument for papers");
+                    exit(0);
+                }
+                numbers[digit] = current;
+                digit++;
+            }
+
+            int number = atoi(numbers);
+            specs -> number_of_papers = number;
+        }
+    }
+
+    char buffer[300] = {0};
+    int index = 0;
+    int size = 1;
+    SampleInformation** sample_arr = (SampleInformation**) malloc(sizeof (SampleInformation*) * size);
+    SampleInformation* current;
+    while(!feof(questions_file)) {
+        QuestionType type;
+        int number;
+        double difficulty_low = 0.0;
+        double difficulty_high = 0.0;
+        fscanf(questions_file, "%[^{]", buffer);
+        _trim_newlines(buffer);
+        _trim_spaces(buffer);
+        if (strcmp(buffer, "\\sample") == 0) {
+            current = (SampleInformation *) malloc(sizeof(SampleInformation));
+            for (int i = 0; i < 3; i++) {
+                fscanf(questions_file, "%*[^{]");
+                fscanf(questions_file, "%*c");
+                fscanf(questions_file, "%[^=]", buffer);
+                fscanf(questions_file, "%*c");
+                _trim_spaces(buffer);
+                _trim_newlines(buffer);
+                if (strcmp(buffer, "type") == 0) {
+                    fscanf(questions_file, "%[^}]", buffer);
+                    fscanf(questions_file, "%*c");
+                    _trim_spaces(buffer);
+                    _trim_newlines(buffer);
+                    if (strcmp(buffer, "mcq") == 0) {
+                        type = mcq;
+                    }
+                } else if (strcmp(buffer, "difficulty") == 0) {
+                    fscanf(questions_file, "%*[^(]");
+                    fscanf(questions_file, "%*c");
+                    fscanf(questions_file, "%lf, %lf", &difficulty_low, &difficulty_high);
+                    fscanf(questions_file, "%*[^}]");
+                    fscanf(questions_file, "%*c");
+                } else if (strcmp(buffer, "number") == 0) {
+                    fscanf(questions_file, "%d", &number);
+                    fscanf(questions_file, "%*[}]");
+                    fscanf(questions_file, "%*c");
+                }
+            }
+
+            current -> number_of_questions = number;
+            current -> difficulty_lower_bound = difficulty_low;
+            current -> difficulty_upper_bound = difficulty_high;
+            current -> type = type;
+            if(index >= size)
+            {
+                size *= 2;
+                SampleInformation** tmp;
+                tmp = realloc(sample_arr, sizeof(SampleInformation*) * size);
+                assert(tmp != NULL);
+                sample_arr = tmp; // realloc frees old memory
+            }
+
+            sample_arr[index] = current;
+            index++;
+        }
+    }
+
+    SampleInformation** tmp = realloc(sample_arr, sizeof (SampleInformation*) * index);
+    // realloc to save memory
+
+    if(tmp != NULL)
+    {
+        sample_arr = tmp;
+    }
+
+    // if realloc doesn't work then sample_arr points to valid memory
+    // with all required data.
+
+    specs -> num_of_samples = index;
+    specs -> sample_list = sample_arr;
+
+    return specs;
 }

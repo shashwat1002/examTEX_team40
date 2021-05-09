@@ -36,11 +36,16 @@ enum randomization_scheme {global=0, sample_wise=1};
 struct question_paper_specifications
 {
     SampleInformation** sample_list;
+    int num_of_samples;
     enum randomization_scheme scheme;
     int number_of_papers;
 };
 
+typedef struct question_paper_specifications PaperSpec;
+
 McqQuestion* parse_mcq_question(FILE *question_bank_file);
 
 ParsedTree* parse_question_bank(FILE *question_bank_file);
+
+PaperSpec* parse_questions_file(FILE* questions_file);
 #endif
