@@ -87,7 +87,7 @@ void display_mcq_question(McqQuestion *question, int Serial_number)
 
 
 questionPtr initializeQuestion(char question_string[], char answer_array[][answerLength], int numberOfAns){
-    questionPtr q = (questionPtr)malloc(sizeof(question));
+    questionPtr q = (questionPtr)malloc(sizeof(questionPtr));
     q->numberOfoptions = numberOfAns;
     strcpy(q->questionString, question_string);
     q->answerArray = (char**)malloc(sizeof(char*)*numberOfAns);
