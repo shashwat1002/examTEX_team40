@@ -65,7 +65,6 @@ void RandDisplay(McqQuestion *question)
 
 void display_mcq_question(McqQuestion *question, int Serial_number, FILE* fp)
 {
-    fp = fopen("out.txt", "a");
 
     int String_length = strlen(question->question_text);
     for (int i = 0; i < String_length + 15; i++)
@@ -96,7 +95,6 @@ void display_mcq_question(McqQuestion *question, int Serial_number, FILE* fp)
             NumDisp++;
         }
     }
-    fclose(fp);
 }
 
 
@@ -115,7 +113,6 @@ questionPtr initializeQuestion(char question_string[], char answer_array[][answe
 }
 
 void printQuestion_blanks(questionPtr q, FILE*fp){
-    fp = fopen("out.txt", "a");
     for(int i = 0; i < strlen(q->questionString); i++){
         fprintf(fp, "_");
     }
@@ -124,7 +121,6 @@ void printQuestion_blanks(questionPtr q, FILE*fp){
     for(int i = 0; i < strlen(q->questionString); i++){
         fprintf(fp, "_");
     }
-    fclose(fp);
     
 }
 
