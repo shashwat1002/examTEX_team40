@@ -63,27 +63,42 @@ void RandDisplay(McqQuestion *question)
     }
 }
 
-void display_mcq_question(McqQuestion *question, int Serial_number)
+void display_mcq_question(McqQuestion *question, int Serial_number, FILE* fp)
 {
+    fp = fopen("out.txt", "a");
+
     int String_length = strlen(question->question_text);
     for (int i = 0; i < String_length + 15; i++)
     {
-        printf("_");
+        fprintf(fp, "_");
     }
-    printf("\n\n");
-    printf("%d) %s\n", Serial_number, question->question_text);
+    fprintf(fp, "\n\n");
+    fprintf(fp, "%d) %s\n", Serial_number, question->question_text);
     for (int i = 0; i < String_length + 15; i++)
     {
-        printf("_");
+        fprintf(fp, "_");
     }
-    printf("\n");
+    fprintf(fp, "\n");
 
-    // for (int i = 0; i < 4; i++)
-    // {
-    //     printf(" {%d} %s\n", i + 1, question->option_list[i]);
-    // }
-    RandDisplay(question);
+    
+    srand(time(NULL));
+    bool *OptionDisp = (bool *)malloc(4 * sizeof(bool));
+    int NumDisp = 1;
+    int Option;
+    while (NumDisp <= 4)
+    {
+        Option = rand() % 4;
+
+        if (!OptionDisp[Option])
+        {
+            fprintf(fp, "{%d} %s\n", NumDisp, question->option_list[Option]);
+            OptionDisp[Option] = true;
+            NumDisp++;
+        }
+    }
+    fclose(fp);
 }
+
 
 
 questionPtr initializeQuestion(char question_string[], char answer_array[][answerLength], int numberOfAns){
@@ -99,11 +114,12 @@ questionPtr initializeQuestion(char question_string[], char answer_array[][answe
     return q;
 }
 
-void printQuestion_blanks(questionPtr q){
-    printf("\n%s? (%d)\nAnswers:\n", q->questionString, q->numberOfoptions);
-    for(int i = 1; i <= q->numberOfoptions; i++){
-        printf("%d . %s\n", i, q->answerArray[i - 1]);
-    }
+void printQuestion_blanks(questionPtr q, FILE*fp){
+    fp = fopen("out.txt", "a");
+
+    fprintf(fp, "\n%s? (%d)\n", q->questionString, q->numberOfoptions);
+    fclose(fp);
+    
 }
 
 int takeAnswer_blanks(questionPtr q, char answer[]){ // returns 0 if wrong
@@ -115,4 +131,33 @@ int takeAnswer_blanks(questionPtr q, char answer[]){ // returns 0 if wrong
     return 0;
 }
 
+/*
+int main(){
+    FILE *fp = fopen("out.txt", "a");
+  /*  char options[3][10] = {"this", "that", "none"};
+    questionPtr q_blank = initializeQuestion("What is this", options, 3);
+    printQuestion_blanks(q_blank, fp);
+    
 
+
+    fprintf(fp, "\nYE BOI\n");
+
+
+
+
+    char** options = malloc(sizeof(char*)*4);
+    for(int i = 0; i < 4; i++){
+        options[i] = malloc(sizeof(char)*20);
+    }
+
+    options[0] = "OHNo";
+    options[1] = "NANI?";
+    options[2] = "OK";
+    options[3] = "none";
+
+    McqQuestion* question_mcq = initialize_mcq_question(0.2, "Omae wa mo shinderu", 4, options, "NANI");
+    display_mcq_question(question_mcq, 1, fp);
+    fclose(fp);
+}
+*/
+// The main function is used for testing
