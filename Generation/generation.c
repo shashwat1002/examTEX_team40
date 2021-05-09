@@ -1,24 +1,28 @@
 #include "generation.h"
 
 int BinarySearch_LowerBound( ParsedTree* T , double L ){
-    if( T->mcq_questions[T->num_mcq_questions-1]->difficulty < L ){
+    if( T->mcq_questions[T->num_mcq_questions-1] -> difficulty < L ){
         return -1;
     }
-    if( T->mcq_questions[0]->difficulty >= L ){
+    if( T->mcq_questions[0] -> difficulty >= L ){
         return 0;
     }
     int i = 1;
     int mid = T->num_mcq_questions;
     while(1){
-        if( T->mcq_questions[i-1]->difficulty < L && T->mcq_questions[i]->difficulty >= L ){
+        if( T->mcq_questions[i-1] -> difficulty < L && T->mcq_questions[i] -> difficulty >= L ){
             return i;
         }
-        if( T->mcq_questions[i]->difficulty >= L ){
-            mid /= 2;
+        if( T->mcq_questions[i] -> difficulty >= L ){
+            if( mid != 1 ){
+              mid /= 2;
+            }
             i -= mid;
         }
-        else if( T->mcq_questions[i]->difficulty < L ){
-            mid /= 2;
+        if( T->mcq_questions[i] -> difficulty < L ){
+            if( mid != 1 ){
+              mid /= 2;
+            }
             i += mid;
         }
     }
@@ -38,11 +42,15 @@ int BinarySearch_UpperBound( ParsedTree* T , double U ){
             return i-1;
         }
         if( T->mcq_questions[i]->difficulty > U ){
-            mid /= 2;
+            if( mid != 1 ){
+              mid /= 2;
+            }
             i -= mid;
         }
-        else if( T->mcq_questions[i]->difficulty <= U ){
-            mid /= 2;
+        if( T->mcq_questions[i]->difficulty <= U ){
+            if( mid != 1 ){
+              mid /= 2;
+            }
             i += mid;
         }
     }
@@ -62,7 +70,7 @@ void ChooseQuestions( ParsedTree* T, double U, double L, int NumQuestions, FILE*
     ///int Up = BinarySearch_UpperBound( T , U );
     int Lw = BinarySearch_LowerBound( T , L );
     int Uw = BinarySearch_UpperBound(T, U);
-    int difference = Uw - Lw;
+    int difference = Uw - Lw + 1;
     while( NumDisp < NumQuestions ){
         Question = rand() % difference;
         if( !Disp[Question] ){
