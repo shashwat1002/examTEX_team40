@@ -116,9 +116,14 @@ questionPtr initializeQuestion(char question_string[], char answer_array[][answe
 
 void printQuestion_blanks(questionPtr q, FILE*fp){
     fp = fopen("out.txt", "a");
-
+    for(int i = 0; i < strlen(q->questionString); i++){
+        fprintf(fp, "_");
+    }
     fprintf(fp, "\n%s? (%d)\n", q->questionString, q->numberOfoptions);
     fprintf(fp, "Answer: \n");
+    for(int i = 0; i < strlen(q->questionString); i++){
+        fprintf(fp, "_");
+    }
     fclose(fp);
     
 }
