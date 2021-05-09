@@ -118,6 +118,7 @@ void printQuestion_blanks(questionPtr q, FILE*fp){
     fp = fopen("out.txt", "a");
 
     fprintf(fp, "\n%s? (%d)\n", q->questionString, q->numberOfoptions);
+    fprintf(fp, "Answer: \n");
     fclose(fp);
     
 }
