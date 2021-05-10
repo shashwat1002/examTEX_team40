@@ -70,7 +70,15 @@ void ChooseQuestions( ParsedTree* T, double U, double L, int NumQuestions, FILE*
     ///int Up = BinarySearch_UpperBound( T , U );
     int Lw = BinarySearch_LowerBound( T , L );
     int Uw = BinarySearch_UpperBound(T, U);
-    int difference = Uw - Lw + 1;
+    int difference = Uw - Lw + 1; // has the number of available questions in the range
+    if(NumQuestions > difference)
+    {
+        // if more questions are required in a range
+        // than available in the bank then exit and print
+        fprintf(stderr, "Error: more questions demanded in difficulty range %lf to %lf than available\n", L, U);
+        fprintf(stderr, "Demanded: %d, available: %d", NumQuestions, difference);
+        exit(1);
+    }
     while( NumDisp < NumQuestions ){
         Question = rand() % difference;
         if( !Disp[Question] ){
