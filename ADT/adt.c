@@ -46,12 +46,17 @@ McqQuestion* initialize_mcq_question(double difficulty, char* question_text, int
 
 void RandDisplay(McqQuestion *question, FILE* fp)
 {
-    bool *OptionDisp = (bool *)malloc(4 * sizeof(bool));
+    bool *OptionDisp = (bool *)calloc(4, sizeof(bool));
     int NumDisp = 1;
     int Option;
     while (NumDisp <= 4)
     {
         Option = rand() % 4;
+        while(OptionDisp[Option])
+        {
+            Option = (Option + 1) % 4; // probe till next un-seen option
+        }
+        // this loop prevents infinite loops
 
         if (!OptionDisp[Option])
         {
