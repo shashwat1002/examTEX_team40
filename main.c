@@ -10,7 +10,7 @@ int main()
     srand(time(NULL));
     // randomness is used throughout the program
     
-    FILE* bank_file = fopen("questionBank2.txt", "r");
+    FILE* bank_file = fopen("questionBank.txt", "r");
 
     ParsedTree* pt = parse_question_bank(bank_file);
     merge_sort(pt -> mcq_questions, 0, pt -> num_mcq_questions-1);
