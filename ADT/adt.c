@@ -90,36 +90,35 @@ void display_mcq_question(McqQuestion *question, int Serial_number, FILE* fp)
 
 
 
-questionPtr initializeQuestion(char question_string[], char answer_array[][answerLength], int numberOfAns){
-    questionPtr q = (questionPtr)malloc(sizeof(questionPtr));
-    q->numberOfoptions = numberOfAns;
-    strcpy(q->questionString, question_string);
-    q->answerArray = (char**)malloc(sizeof(char*)*numberOfAns);
-//    q->answerArray
+questionPtr initializeQuestion(char question_string[], char answer_array[][answerLength], int numberOfAns){ // A function to initialise the Question of blanks
+    questionPtr q = (questionPtr)malloc(sizeof(questionPtr)); // Main struct's allocation
+    q->numberOfoptions = numberOfAns; // giving in the number of answers.
+    strcpy(q->questionString, question_string); // Copying the main question string
+    q->answerArray = (char**)malloc(sizeof(char*)*numberOfAns); // allocating the space for each char* in the array of correctAnswers (strings)
     for(int i = 0; i < numberOfAns; i++){
-        q->answerArray[i] = malloc(sizeof(char)*answerLength);
-        strcpy(q->answerArray[i], answer_array[i]);
+        q->answerArray[i] = malloc(sizeof(char)*answerLength); // Allocating string linealy
+        strcpy(q->answerArray[i], answer_array[i]); // Copying the answer
     }
     return q;
 }
 
-void printQuestion_blanks(questionPtr q, FILE*fp){
+void printQuestion_blanks(questionPtr q, FILE*fp){ // A function to print the question to the output file.
     for(int i = 0; i < strlen(q->questionString); i++){
         fprintf(fp, "_");
     }
-    fprintf(fp, "\n%s? (%d)\n", q->questionString, q->numberOfoptions);
-    fprintf(fp, "Answer: \n");
+    fprintf(fp, "\n%s? (%d)\n", q->questionString, q->numberOfoptions); // The question is printed.
+    fprintf(fp, "Answer: \n"); // The user's prompt or the place to write the answer.
     for(int i = 0; i < strlen(q->questionString); i++){
         fprintf(fp, "_");
     }
     
 }
 
-int takeAnswer_blanks(questionPtr q, char answer[]){ // returns 0 if wrong
+int takeAnswer_blanks(questionPtr q, char answer[]){ // Returns a boolean if the answer  (0 if wrong, else 1).
     for(int i = 0; i < q->numberOfoptions;i++){
-        if(strcmp(answer, q->answerArray[i]) == 0){
-            return 1;
+        if(strcmp(answer, q->answerArray[i]) == 0){ // This is basically linear traversal thorugh the array of strings checking for the correct answer.
+            return 1; // Whenever correct answer is found, 1 is returned and we exit from the function
         }
     }
-    return 0;
+    return 0; // If it exits the loop, it means that no correct answer is found. So, returns 0
 }
