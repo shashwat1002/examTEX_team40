@@ -1,9 +1,11 @@
 #include "generation.h"
 
 int BinarySearch_LowerBound( ParsedTree* T , double L ){
+    /*Here, we account for the case where the largest element in the array is smaller than the lower bound.*/
     if( T->mcq_questions[T->num_mcq_questions-1] -> difficulty < L ){
         return -1;
     }
+    /*Here, we account for the case where the smallest element is larger than the lower bound.*/
     if( T->mcq_questions[0] -> difficulty >= L ){
         return 0;
     }
@@ -29,9 +31,11 @@ int BinarySearch_LowerBound( ParsedTree* T , double L ){
 }
 
 int BinarySearch_UpperBound( ParsedTree* T , double U ){
-    if( T->mcq_questions[T->num_mcq_questions-1]->difficulty <= U ){
+    /*Here, we account for the case where the largest element is smaller than the upper bound.*/
+        if( T->mcq_questions[T->num_mcq_questions-1]->difficulty <= U ){
         return T->num_mcq_questions-1;
     }
+    /*Here, we account for the case where the smallest element is larger than the upper bound.*/
     if( T->mcq_questions[0]->difficulty > U ){
         return -1;
     }

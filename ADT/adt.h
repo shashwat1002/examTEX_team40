@@ -24,8 +24,9 @@ typedef struct mcq_question McqQuestion;
 
 McqQuestion* initialize_mcq_question(double difficulty, char* question_text, int num_options, char** option_list, char* correct_option);
 // the above method takes the correct option as a string as well.
-
+/* This function prints the options in a permuted order. */
 void RandDisplay(McqQuestion *question, FILE* fp);
+/* This function prints the entire question onto the required file. */
 void display_mcq_question(McqQuestion* question , int Serial_number, FILE* fp);
 
 
