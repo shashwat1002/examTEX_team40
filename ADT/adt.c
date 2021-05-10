@@ -2,8 +2,9 @@
 
 McqQuestion* initialize_mcq_question(double difficulty, char* question_text, int num_options, char** option_list, char* correct_option)
 {
+    // method to construct mcq question objects and return the respective pointer
     McqQuestion* question = (McqQuestion*) malloc(sizeof(McqQuestion));
-    assert(question != NULL);
+    assert(question != NULL); // checking malloc fails
     question -> difficulty = difficulty;
 
     int length = strlen(question_text);
@@ -12,7 +13,7 @@ McqQuestion* initialize_mcq_question(double difficulty, char* question_text, int
 
     char* question_text_insert = (char *) malloc(length);
 
-    strcpy(question_text_insert, question_text);
+    strcpy(question_text_insert, question_text); // copying for safety
 
     int correct_option_index = 0;
 
@@ -20,7 +21,7 @@ McqQuestion* initialize_mcq_question(double difficulty, char* question_text, int
     // the list that'll be entered into the object, basically a copy of input into the heap
 
 
-    for(int j = 0; j < num_options; j++)
+    for(int j = 0; j < num_options; j++) // this loop to copy the options list from the argument to the object
     {
         char* current = option_list[j];
         if(strcmp(current, correct_option) == 0)
@@ -122,34 +123,3 @@ int takeAnswer_blanks(questionPtr q, char answer[]){ // returns 0 if wrong
     }
     return 0;
 }
-
-/*
-int main(){
-    FILE *fp = fopen("out.txt", "a");
-  /*  char options[3][10] = {"this", "that", "none"};
-    questionPtr q_blank = initializeQuestion("What is this", options, 3);
-    printQuestion_blanks(q_blank, fp);
-    
-
-
-    fprintf(fp, "\nYE BOI\n");
-
-
-
-
-    char** options = malloc(sizeof(char*)*4);
-    for(int i = 0; i < 4; i++){
-        options[i] = malloc(sizeof(char)*20);
-    }
-
-    options[0] = "OHNo";
-    options[1] = "NANI?";
-    options[2] = "OK";
-    options[3] = "none";
-
-    McqQuestion* question_mcq = initialize_mcq_question(0.2, "Omae wa mo shinderu", 4, options, "NANI");
-    display_mcq_question(question_mcq, 1, fp);
-    fclose(fp);
-}
-*/
-// The main function is used for testing
