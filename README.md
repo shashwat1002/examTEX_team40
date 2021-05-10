@@ -16,6 +16,13 @@
 
 
 # instructions to build the project. 
+
+This assumes you have bash commands available 
+
+For the build, `cmake` will be required.
+
+Get cmake for your distribution here from the downloads page: <https://cmake.org/download/>
+
 - `cd build` and then run `cmake ..`
 - and then run `cmake --build .`
 - these steps should lead to the executable in the `build` directory.
