@@ -27,3 +27,9 @@ Get cmake for your distribution here from the downloads page: <https://cmake.org
 - and then run `cmake --build .`
 - these steps should lead to the executable in the `build` directory.
 
+# Notes on running the program
+
+- The question bank should be of the name `questionBank.txt`
+- The questions file should be named `sample_questions_file.in`
+- both the files should be in the same folder as the executable
+- at which point the executable will generate the number of question papers asked for in the file.
