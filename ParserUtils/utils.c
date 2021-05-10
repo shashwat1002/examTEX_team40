@@ -24,7 +24,7 @@ void __trim__characters(char *text, char character)
 
     int index_r = length-1;
     current_character = text[index_r];
-    while(current_character == character)
+    while(current_character == character) // looping from behind to find the last valid character
     {
         index_r--;
         current_character = text[index_r];
@@ -163,22 +163,19 @@ McqQuestion* parse_mcq_question(FILE *question_bank_file)
 
 ParsedTree* parse_question_bank(FILE* question_bank_file)
 {
-    int mcq_index = 0;
+    int mcq_index = 0; // to keep track of the number of mcq questions that have been parsed
     int current_mcq_arr_size = 1;
-    ParsedTree* pt = (ParsedTree*) malloc(sizeof (ParsedTree));
+    ParsedTree* pt = (ParsedTree*) malloc(sizeof (ParsedTree)); // this will be what the question bank's representation
     McqQuestion** mcq_question_list = (McqQuestion**) malloc(sizeof(McqQuestion*) * 1);
     while(!feof(question_bank_file))
     {
         char tag[20] = {0};
         fscanf(question_bank_file, "%[^{]", tag);
-        _trim_spaces(tag);
-        _trim_newlines(tag);
-        if(strcmp(tag, "\\end") == 0) // in case of end tag
-        {
-            continue;
-        }
+        _trim_spaces(tag); // trim leading and trailing spaces
+        _trim_newlines(tag); // trim leading and trailing newlines
+
         if(strcmp(tag, "\\mcq") == 0) {
-            McqQuestion* current = parse_mcq_question(question_bank_file);
+            McqQuestion* current = parse_mcq_question(question_bank_file); // called the specific parser
 
             fscanf(question_bank_file, "%*[^\n]");
 
@@ -207,16 +204,16 @@ ParsedTree* parse_question_bank(FILE* question_bank_file)
 
 
 
-PaperSpec* parse_questions_file(FILE* questions_file)
+PaperSpec* parse_questions_file(FILE* questions_file) // to parse the question instructions file
 {
     char buffer_text[300];
-    int _tripple_dash = 0;
+    int _tripple_dash = 0; // this is to count the number of occurances of "---"
 
-    PaperSpec* specs = (PaperSpec*) malloc(sizeof (PaperSpec));
+    PaperSpec* specs = (PaperSpec*) malloc(sizeof (PaperSpec)); // the return object
 
     while (1)
     {
-        fscanf(questions_file, "%[^\n]%*c", buffer_text);
+        fscanf(questions_file, "%[^\n]%*c", buffer_text); // parameters parsed till newline
         _trim_newlines(buffer_text);
         _trim_spaces(buffer_text);
 
@@ -224,13 +221,13 @@ PaperSpec* parse_questions_file(FILE* questions_file)
         {
             _tripple_dash++;
 
-            if (_tripple_dash == 1)
+            if (_tripple_dash == 1) // If this is he first time we encounter "--"
             {
                 continue;
             }
             if (_tripple_dash == 2)
             {
-                break;
+                break; // front matter is done with
             }
         }
 
@@ -244,19 +241,19 @@ PaperSpec* parse_questions_file(FILE* questions_file)
             specs -> scheme = sample_wise;
         }
 
-        else
+        else // this portion is if the parameter is "papers"
         {
 
             char current = 0;
             int index = -1;
-            while (current != ':')
+            while (current != ':') // we loop till ':' is encountered
             {
                 index++;
                 current = buffer_text[index];
             }
             int offset = index;
 
-            char numbers[5] = {0};
+            char numbers[5] = {0}; // we expect a number, we don't know how big
             int digit = 0;
 
             while (1)
@@ -282,17 +279,17 @@ PaperSpec* parse_questions_file(FILE* questions_file)
                 digit++;
             }
 
-            int number = atoi(numbers);
+            int number = atoi(numbers); // convert to integer
             specs -> number_of_papers = number;
         }
     }
-
+    // parsing for the front matter is done with, next part begins here:
     char buffer[300] = {0};
-    int index = 0;
-    int size = 1;
+    int index = 0; // keep track of how many samples have been read
+    int size = 1; // size of the array
     SampleInformation** sample_arr = (SampleInformation**) malloc(sizeof (SampleInformation*) * size);
     SampleInformation* current;
-    while(!feof(questions_file)) {
+    while(!feof(questions_file)) { // keep going till end of file is encountered
         QuestionType type;
         int number;
         double difficulty_low = 0.0;
@@ -302,7 +299,7 @@ PaperSpec* parse_questions_file(FILE* questions_file)
         _trim_spaces(buffer);
         if (strcmp(buffer, "\\sample") == 0) {
             current = (SampleInformation *) malloc(sizeof(SampleInformation));
-            for (int i = 0; i < 3; i++) {
+            for (int i = 0; i < 3; i++) { // we know each sample has only 3 attributes
                 fscanf(questions_file, "%*[^{]");
                 fscanf(questions_file, "%*c");
                 fscanf(questions_file, "%[^=]", buffer);
