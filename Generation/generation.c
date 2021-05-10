@@ -78,9 +78,9 @@ void ChooseQuestions( ParsedTree* T, double U, double L, int NumQuestions, FILE*
     {
         // if more questions are required in a range
         // than available in the bank then exit and print
-        fprintf(stderr, "Error: more questions demanded in difficulty range %lf to %lf than available\n", L, U);
-        fprintf(stderr, "Demanded: %d, available: %d", NumQuestions, difference);
-        exit(1);
+        printf("Error: more questions demanded in difficulty range %lf to %lf than available\n", L, U);
+        printf("Demanded: %d, available: %d", NumQuestions, difference);
+        exit(0);
     }
     while( NumDisp < NumQuestions ){
         Question = rand() % difference;
