@@ -6,7 +6,6 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <time.h>
 #define answerLength 10 // for fill in the blanks questions
 
 enum supported_question_types {mcq = 0};

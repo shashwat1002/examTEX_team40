@@ -63,7 +63,6 @@ void ChooseQuestions( ParsedTree* T, double U, double L, int NumQuestions, FILE*
     // so the question no. will be decided from the start index
     // doube U is for the upper bound of difficulty 
     // double L is for the lower bound of difficulty
-    srand( time( NULL ) );
     bool* Disp = ( bool* ) malloc( NumQuestions * sizeof( bool ) );
     int NumDisp = 0;
     int Question;

@@ -2,9 +2,14 @@
 #include "ParserUtils/utils.h"
 #include "Generation/generation.h"
 #include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 
 int main()
 {
+    srand(time(NULL));
+    // randomness is used throughout the program
+    
     FILE* bank_file = fopen("questionBank2.txt", "r");
 
     ParsedTree* pt = parse_question_bank(bank_file);

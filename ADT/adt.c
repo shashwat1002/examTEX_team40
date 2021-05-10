@@ -46,7 +46,6 @@ McqQuestion* initialize_mcq_question(double difficulty, char* question_text, int
 
 void RandDisplay(McqQuestion *question, FILE* fp)
 {
-    srand(time(NULL));
     bool *OptionDisp = (bool *)malloc(4 * sizeof(bool));
     int NumDisp = 1;
     int Option;
