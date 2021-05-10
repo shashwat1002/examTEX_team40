@@ -70,14 +70,15 @@ void RandDisplay(McqQuestion *question, FILE* fp)
 
 void display_mcq_question(McqQuestion *question, int Serial_number, FILE* fp)
 {
-
     int String_length = strlen(question->question_text);
+    /*This is for printing a line.*/
     for (int i = 0; i < String_length + 15; i++)
     {
         fprintf(fp, "_");
     }
     fprintf(fp, "\n\n");
     fprintf(fp, "%d) %s\n", Serial_number, question->question_text);
+    /*This is for printing a line.*/
     for (int i = 0; i < String_length + 15; i++)
     {
         fprintf(fp, "_");
